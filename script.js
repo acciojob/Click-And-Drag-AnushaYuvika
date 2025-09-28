@@ -7,11 +7,11 @@ let offsetY = 0;
 
 // Position cubes in initial grid
 cubes.forEach((cube, idx) => {
-    const row = Math.floor(idx / 5); // 5 columns in your HTML grid
+    const row = Math.floor(idx / 5);
     const col = idx % 5;
     cube.style.position = 'absolute';
-    cube.style.top = `${row * 70}px`;   // adjust spacing
-    cube.style.left = `${col * 70}px`;
+    cube.style.left = `${col * (cube.offsetWidth + 10)}px`;
+    cube.style.top = `${row * (cube.offsetHeight + 10)}px`;
 
     cube.addEventListener('mousedown', (e) => {
         selectedCube = cube;
@@ -28,14 +28,11 @@ document.addEventListener('mousemove', (e) => {
     let x = e.clientX - offsetX;
     let y = e.clientY - offsetY;
 
-    // Boundaries
-    const containerRect = container.getBoundingClientRect();
-    const cubeRect = selectedCube.getBoundingClientRect();
+    const maxX = container.scrollWidth - selectedCube.offsetWidth;
+    const maxY = container.clientHeight - selectedCube.offsetHeight;
 
-    if (x < 0) x = 0;
-    if (y < 0) y = 0;
-    if (x + cubeRect.width > containerRect.width) x = containerRect.width - cubeRect.width;
-    if (y + cubeRect.height > containerRect.height) y = containerRect.height - cubeRect.height;
+    x = Math.max(0, Math.min(x, maxX));
+    y = Math.max(0, Math.min(y, maxY));
 
     selectedCube.style.left = `${x}px`;
     selectedCube.style.top = `${y}px`;

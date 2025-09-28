@@ -71,6 +71,9 @@ body {
 
 .items {
   position: relative;
+	overflow-x: scroll;
+white-space: nowrap;
+
 }
 
 .item {
